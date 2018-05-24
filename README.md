@@ -1,2 +1,2 @@
-# bombombom1004.github.com
-github pages
+# Hello!
+나의 첫번째 github!
