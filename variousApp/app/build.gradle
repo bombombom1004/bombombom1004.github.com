@@ -1,5 +1,18 @@
 apply plugin: 'com.android.application'
 
+def buildDate = getBuildDate()
+
+def getBuildDate() {
+    def date = new Date()
+    def format = date.format('yyMMddHHmm')
+    return format
+}
+
+def hy = "HY"
+def km = "KM"
+def genesis = "GENESIS"
+
+
 android {
     compileSdkVersion 23
     buildToolsVersion "27.0.3"
@@ -7,9 +20,9 @@ android {
         applicationId "test.gitauto.com.variousapp"
         minSdkVersion 19
         targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        versionCode buildDate.toInteger()
+        versionName buildDate
     }
     buildTypes {
         release {
@@ -17,6 +30,34 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    // 1. 버전추가하기
+    productFlavors {
+        /**
+         * applicationId : app을 구분하기 위한 id
+         *                 applicationId를 바꾸게되면, 다른app이 됨.
+         */
+
+        HY {
+            applicationIdSuffix ".hy"
+            buildConfigField "String", "APP_NAME", "\""+hy+"\""// BuildConfig 에 변수 추가
+            manifestPlaceholders = [appLabel: hy] // manifest로 값 넘기기
+        }
+
+        KM {
+            applicationIdSuffix ".km"
+            buildConfigField "String", "APP_NAME", "\""+km+"\""
+            manifestPlaceholders = [appLabel: km]
+        }
+
+        GENESIS {
+            applicationIdSuffix ".genesis"
+            buildConfigField "String", "APP_NAME", "\""+genesis+"\""
+            manifestPlaceholders = [appLabel: genesis]
+        }
+    }
+
+
 }
 
 dependencies {
